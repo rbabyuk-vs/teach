@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My HTML Page</title>
+</head>
+<body>
+
+	<h1 id="heading">Welcome to My Page</h1>
+	<p id="paragraph">This is a simple HTML page with a few elements and a list.</p>
+
+	<ul id="list">
+		<li id="item1">Item 1</li>
+		<li id="item2">Item 2</li>
+		<li id="item3">Item 3</li>
+	</ul>
+
+	<a href="#" id="link">This is a link</a>
+  <br>
+  <button id="button" style="font-size: 20px;">click</button>
+  <br>
+	<img src="https://media.cnn.com/api/v1/images/stellar/prod/230224144007-02-best-beaches-world-tripadvisor-2023-eagle-beach.jpg?c=original&q=h_618,c_fill" alt="Placeholder Image" id="image">
+<script>
+  let sel = document.getElementById('image')
+  console.log(sel);
+
+  // ADD ELEMENT
+  /*
+  // Creating a new element
+  const newParagraph = document.createElement('p');
+  // Adding text content
+  newParagraph.textContent = 'This is a new paragraph.';
+  // Adding the element to an existing element (e.g., to the element with the id "main")
+  document.getElementById('list').appendChild(newParagraph)
+  */
+
+  // DELETE ELEMENT
+  /*
+  // Getting a reference to the element to be removed (e.g., by id "oldParagraph")
+  const oldParagraph = document.getElementById('link');
+  // Removing the element from its parent element
+  oldParagraph.parentNode.removeChild(oldParagraph);
+  */
+
+  
+  // UPDATE ELEMENT
+  /*
+  // Getting a reference to the element to be changed (e.g., by id "changingElement")
+  const changingElement = document.getElementById('link');
+  // Modifying the text content
+  changingElement.textContent = 'New text for the element.';
+  */
+
+  // CLICK HANDLER
+  /*
+  // Getting a reference to the element, for example, the button with id "myButton"
+  const myButton = document.getElementById('button');
+  // Adding a click event listener
+  myButton.addEventListener('click', function() {
+    alert('The button was clicked!');
+  });
+  */
+
+  // MOUSE OVER HANDLER
+  /*
+  // Getting a reference to the element, for example, the image with id "myImage"
+  const myImage = document.getElementById('image');
+  // Adding a mouseover event listener
+  myImage.addEventListener('mouseover', function() {
+    console.log('Mouse is over the image.');
+  });
+  */
+
+</script>
+</body>
+</html>
