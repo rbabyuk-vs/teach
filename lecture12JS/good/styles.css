@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  input, button {
+    padding: 5px;
+  }
+  
+  #addressList {
+    list-style-type: none;
+    padding: 0;
+  }
