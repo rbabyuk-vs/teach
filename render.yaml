@@ -6,3 +6,8 @@ services:
     buildCommand: npm install
     startCommand: npm start
     envFile: .env
+    region: frankfurt
+    rootDir: nodejs-np-api
+    buildFilter:
+      paths: # Only trigger a build with changes to these files
+        - src/**/*.js
