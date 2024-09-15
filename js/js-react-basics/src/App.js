@@ -14,12 +14,13 @@ const firstName = 'Smith'; // use const whenever possible, to simplify debugging
   - strings
     - single qoute
     - double qoute
+    - backticks
   - number
     - integer
     - decimals
     - sientific
   - bool
-  - null
+  - undefined
 
 let someVar; // Undefined -- look at console
 let age = 18; // int
