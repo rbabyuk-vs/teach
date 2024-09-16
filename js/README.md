@@ -35,3 +35,6 @@ npm start
     * Push
 6. Desctructing assignment
 7. Rest parameters and spread syntax
+8. Comparizon and Logical operators
+9. Conditions
+10. Loop for
