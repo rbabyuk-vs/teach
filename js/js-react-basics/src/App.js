@@ -133,6 +133,25 @@ const harryPotter2 = {
 }; // copy values of `harryPotter` into new object `harryPotter2`, but objects inside objects are not copied until you do so!
 */
 
+/*
+// First component
+const movie = {
+    name: "Star Wars",
+    director: "George Lucas"
+}
+
+const {name, director} = movie
+
+function Movie({name, director}) {
+    return (
+        <div>
+            <h1>{name}</h1>
+            <h2>{director}</h2>
+        </div>
+    )
+}
+*/
+
 function App() {
   // console.log(name);
   // console.log(firstName);
@@ -158,6 +177,8 @@ function App() {
           return <div key={fruit}>Fruit {index}: {fruit}</div>
         })
       */}
+      {/*<Movie name={name} director={director}/>*/}
+      {/*<Movie {...movie}/>*/}
     </div>
   );
 }
