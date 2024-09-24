@@ -38,3 +38,9 @@ npm start
 8. Comparizon and Logical operators
 9. Conditions
 10. Loop for
+11. Functions:
+      * Declaration
+      * Expression
+      * Arrow function
+      * Default value
+12. Errors handling, logs, "try..catch"
