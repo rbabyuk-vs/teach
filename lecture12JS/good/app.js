@@ -2,7 +2,7 @@ const cityInput = document.getElementById('cityInput');
 const searchButton = document.getElementById('searchButton');
 const addressList = document.getElementById('addressList');
 
-const corsProxy = 'https://corsproxy.io/?';
+const corsProxy = 'https://thingproxy.freeboard.io/fetch/';
 const apiUrl = 'https://api.novaposhta.ua/v2.0/json/';
 
 searchButton.addEventListener('click', () => {
