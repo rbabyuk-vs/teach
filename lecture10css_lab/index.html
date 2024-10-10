@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота з CSS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Мій Сайт</h1>
+        <nav>
+            <ul>
+                <li><a href="#news">Новини</a></li>
+                <li><a href="#blog">Блог</a></li>
+                <li><a href="#contact">Контакти</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="news">
+            <h2>Останні новини</h2>
+            <div class="card">
+                <h3>Заголовок новини 1</h3>
+                <p>Короткий опис новини 1...</p>
+                <button>Читати далі</button>
+            </div>
+            <div class="card">
+                <h3>Заголовок новини 2</h3>
+                <p>Короткий опис новини 2...</p>
+                <button>Читати далі</button>
+            </div>
+        </section>
+
+        <section id="blog">
+            <h2>Блог</h2>
+            <div class="blog-post">
+                <img src="https://via.placeholder.com/800x400" alt="Зображення блогу">
+                <h3>Остання стаття</h3>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Контакти</h2>
+            <form>
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Повідомлення:</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Відправити</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Мій Сайт</p>
+    </footer>
+</body>
+</html>
