@@ -44,4 +44,9 @@ npm start
       * Arrow function
       * Default value
 12. Errors handling, logs, "try..catch"
-13. Forms
+13. Classes
+14. Forms
+15. Fetch
+// TODO:
+- cover promisses
+- fetch vs axious
