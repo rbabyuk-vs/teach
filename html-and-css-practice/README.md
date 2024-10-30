@@ -33,6 +33,34 @@
 
 - Використовуйте `div` елементи для розділення основного блоку на дві рівні частини.
 
+<details>
+  <summary>Click me</summary>
+
+  ```html
+<div class="container">
+   <div class="left">
+      <!-- Зображення піци -->
+   </div>
+   <div class="right">
+      <!-- Опис піци, вибір розміру, кнопка замовлення -->
+   </div>
+</div>
+  ```
+
+  ```css
+  .container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.left, .right {
+   width: 50%;
+   padding: 10px;
+}
+  ```
+</details>
+
 #### Ліва частина - Зображення піци:
 
 - Вставте зображення піци, використовуючи тег `img`. Додайте відповідний опис (alt-атрибут) для зображення.
