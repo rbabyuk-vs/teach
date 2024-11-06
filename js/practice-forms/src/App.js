@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import 'bootswatch/dist/flatly/bootstrap.min.css'; // npm install bootswatch 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+function isNegative(number) {
+  return number < 0;
+}
+
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     buyDate: '',
@@ -57,6 +61,21 @@ const FormComponent = () => {
       const buyRate = buyData[0].rate;
       const sellRate = sellData[0].rate;
       const profitLoss =  formData.sellPrice - formData.buyPrice;
+      const buyPriceUAH = buyData[0].rate * formData.buyPrice;
+      const sellPriceUAH = sellData[0].rate * formData.sellPrice;
+      const profitLossUAH =  sellPriceUAH - buyPriceUAH;
+
+      // now we caclulate taxes
+      const taxRate = 0.195;
+      const taxUAH = number
+
+      if (isNegative(profitLossUAH)) {
+        console.log('Loss detected');
+        taxUAH = 0;
+      } else {
+        console.log('Profit detected');
+        taxUAH = profitLossUAH * taxRate;
+      }
 
       const resultData = {
         buyDate: formData.buyDate,
