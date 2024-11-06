@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootswatch/dist/flatly/bootstrap.min.css'; // npm install bootswatch 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const FormComponent = () => {
