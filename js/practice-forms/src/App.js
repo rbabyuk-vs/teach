@@ -66,15 +66,22 @@ const FormComponent = () => {
       const profitLossUAH =  sellPriceUAH - buyPriceUAH;
 
       // now we caclulate taxes
-      const taxRate = 0.195;
-      const taxUAH = number
+      const taxRateIncome = 0.18;
+      const taxRateMilitary = 0.015;
+      let taxUAH = 0;
+      let taxUAHIncome = 0;
+      let taxUAHMilitary = 0;
+      let profitLossAfterTax = profitLoss.toFixed(2);
 
       if (isNegative(profitLossUAH)) {
         console.log('Loss detected');
-        taxUAH = 0;
       } else {
         console.log('Profit detected');
-        taxUAH = profitLossUAH * taxRate;
+        taxUAHIncome = profitLossUAH * taxRateIncome;
+        taxUAHMilitary = profitLossUAH * taxRateMilitary;
+        taxUAH = taxUAHIncome + taxUAHMilitary;
+        const taxUSD = taxUAH / sellRate;
+        profitLossAfterTax = (sellPrice - buyPrice - taxUSD).toFixed(2);
       }
 
       const resultData = {
@@ -84,7 +91,11 @@ const FormComponent = () => {
         sellRate,
         buyPriceInUSD: formData.buyPrice,
         sellPriceInUSD: formData.sellPrice,
-        profitLoss: profitLoss.toFixed(2)
+        profitLoss: profitLoss.toFixed(2),
+        taxUAH: taxUAH.toFixed(2),
+        taxUAHIncome: taxUAHIncome.toFixed(2),
+        taxUAHMilitary: taxUAHMilitary.toFixed(2),
+        profitLossAfterTax: profitLossAfterTax
       };
 
       setResults(resultData);
@@ -233,44 +244,32 @@ const FormComponent = () => {
                     <table className="table table-borderless mb-0">
                       <tbody>
                         <tr>
-                          <th scope="row" className="ps-0">Buy Date:</th>
-                          <td className="pe-0">{results.buyDate}</td>
+                          <th scope="row" className="ps-0">Total tax in UAH(18% + 1,5%):</th>
+                          <td className="pe-0">{results.taxUAH} UAH</td>
                         </tr>
                         <tr>
-                          <th scope="row" className="ps-0">Buy Exchange Rate (UAH/USD):</th>
-                          <td className="pe-0">{results.buyRate}</td>
+                          <th scope="row" className="ps-0">Income Tax:</th>
+                          <td className="pe-0">{results.taxUAHIncome} UAH</td>
                         </tr>
                         <tr>
-                          <th scope="row" className="ps-0">Buy Price in USD:</th>
-                          <td className="pe-0">{results.buyPriceInUSD}</td>
+                          <th scope="row" className="ps-0">Military Tax:</th>
+                          <td className="pe-0">{results.taxUAHMilitary} UAH</td>
                         </tr>
                         <tr>
-                          <th scope="row" className="ps-0">Sell Date:</th>
-                          <td className="pe-0">{results.sellDate}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" className="ps-0">Sell Exchange Rate (UAH/USD):</th>
-                          <td className="pe-0">{results.sellRate}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" className="ps-0">Sell Price in USD:</th>
-                          <td className="pe-0">{results.sellPriceInUSD}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" className="ps-0">Profit/Loss in USD:</th>
-                          <td className="pe-0">{results.profitLoss}</td>
+                          <th scope="row" className="ps-0">Income after taxes (USD):</th>
+                          <td className="pe-0">{results.profitLossAfterTax} USD</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   {/* Optionally, display a message based on profit or loss */}
-                  {parseFloat(results.profitLoss) > 0 ? (
+                  {parseFloat(results.profitLossAfterTax) > 0 ? (
                     <div className="alert alert-success mt-4" role="alert">
-                      You made a profit of ${results.profitLoss} USD.
+                      You made a profit of ${results.profitLossAfterTax} USD.
                     </div>
-                  ) : parseFloat(results.profitLoss) < 0 ? (
+                  ) : parseFloat(results.profitLossAfterTax) < 0 ? (
                     <div className="alert alert-danger mt-4" role="alert">
-                      You incurred a loss of ${Math.abs(results.profitLoss)} USD.
+                      You incurred a loss of ${Math.abs(results.profitLossAfterTax)} USD.
                     </div>
                   ) : (
                     <div className="alert alert-info mt-4" role="alert">
