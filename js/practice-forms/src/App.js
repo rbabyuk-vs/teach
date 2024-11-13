@@ -68,6 +68,7 @@ const FormComponent = () => {
       // now we caclulate taxes
       const taxRateIncome = 0.18;
       const taxRateMilitary = 0.015;
+      const taxRateComp = taxRateIncome + taxRateMilitary;
       let taxUAH = 0;
       let taxUAHIncome = 0;
       let taxUAHMilitary = 0;
@@ -81,8 +82,27 @@ const FormComponent = () => {
         taxUAHMilitary = profitLossUAH * taxRateMilitary;
         taxUAH = taxUAHIncome + taxUAHMilitary;
         const taxUSD = taxUAH / sellRate;
-        profitLossAfterTax = (sellPrice - buyPrice - taxUSD).toFixed(2);
+        profitLossAfterTax = (formData.sellPrice - formData.buyPrice - taxUSD).toFixed(2);
       }
+      /*
+      let's solve the equation to get formula for No Loss sell price
+      (x * sellRate) - ((x * SellRate - buyPrice * buyRate) * taxRate)) / sellRate = buyPrice
+      x * sellRate - ((x * SellRate - buyPrice * buyRate) * taxRate) = buyPrice * sellRate
+      x * sellRate - ((x * SellRate - buyPriceUAH) * taxRate) = buyPrice * sellRate
+      x * sellRate - (x * taxRate * SellRate - taxRate * buyPriceUAH) = buyPrice * sellRate
+
+      sellRateAfterTax = taxRate * SellRate
+      buyPriceUAHAfterTax = taxRate * buyPriceUAH
+
+      x * buyRate - (x * sellRateAfterTax - buyPriceUAHAfterTax) = buyPrice * sellRate
+      (x * (buyRate - sellRateAfterTax)) + buyPriceUAHAfterTax = buyPrice * sellRate
+      x * (buyRate - sellRateAfterTax) =  buyPrice * sellRate - buyPriceUAHAfterTax
+      x = (buyPrice * sellRate - buyPriceUAHAfterTax)/(sellRate - sellRateAfterTax)
+      */
+      const sellRateAfterTax = taxRateComp * sellRate
+      const buyPriceUAHAfterTax = taxRateComp * buyPriceUAH
+      const sellPriceNoLoss = (formData.buyPrice * sellRate - buyPriceUAHAfterTax) / (sellRate - sellRateAfterTax)
+      console.log(sellPriceNoLoss)
 
       const resultData = {
         buyDate: formData.buyDate,
