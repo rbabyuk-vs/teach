@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import backpackImage from "./assets/images/backpack.jpg"; // Local image
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
     name: "Fjallraven - Foldsack No. 1 Backpack",
     price: 109.95,
     image: backpackImage, // Use the local image
-    description: "Ідеальний рюкзак для повсякденного використання та прогулянок у лісі. Сховайте свій ноутбук (до 15 дюймів) у м'якому рукаві, щоденний"
+    description: "Ідеальний рюкзак для повсякденного використання та прогулянок у лісі. Сховайте свій ноутбук (до 15 дюймів) у м'якому рукаві, щоденний",
   };
 
   const addToCart = () => {
@@ -43,29 +42,39 @@ function App() {
     );
   };
 
-  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div className="container mt-4">
+    <div style={{ padding: "20px" }}>
       {/* Product Card */}
-      <div className="card" style={{ width: "18rem" }}>
-        <img src={product.image} className="card-img-top" alt={product.name} />
-        <div className="card-body">
-          <h5 className="card-title">{product.name}</h5>
-          <p className="text-muted">{product.description}</p>
-          <p className="card-text">
+      <div style={{ border: "1px solid #ccc", padding: "10px", width: "300px" }}>
+        <img
+          src={product.image}
+          alt={product.name}
+          style={{ width: "100%", height: "auto" }}
+        />
+        <div>
+          <h5>{product.name}</h5>
+          <p>{product.description}</p>
+          <p>
             <strong>${product.price}</strong>
           </p>
-          <button className="btn btn-primary" onClick={addToCart}>
-            Buy
-          </button>
+          <button onClick={addToCart}>Buy</button>
         </div>
       </div>
 
       {/* Cart Button */}
       <button
-        className="btn btn-secondary mt-4"
         onClick={() => setShowCart(!showCart)}
+        style={{
+          marginTop: "20px",
+          padding: "10px 20px",
+          backgroundColor: "#ccc",
+          border: "none",
+        }}
       >
         {showCart ? "Hide Cart" : `Cart (${cart.length})`}
       </button>
@@ -88,13 +97,9 @@ function App() {
           }}
         >
           {/* Close Button */}
-          <div className="d-flex justify-content-between align-items-center mb-3">
+          <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
             <h5>Cart</h5>
-            <button
-              className="btn-close"
-              onClick={() => setShowCart(false)}
-              aria-label="Close"
-            ></button>
+            <button onClick={() => setShowCart(false)}>X</button>
           </div>
 
           {/* Cart Items */}
@@ -103,7 +108,14 @@ function App() {
               <p>Your cart is empty.</p>
             ) : (
               cart.map((item) => (
-                <div key={item.id} className="d-flex align-items-center mb-3">
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
                   <img
                     src={item.image}
                     alt={item.name}
@@ -114,28 +126,13 @@ function App() {
                     }}
                   />
                   <div style={{ flex: 1 }}>
-                    <p className="mb-1">{item.name}</p>
-                    <p className="mb-1">
+                    <p>{item.name}</p>
+                    <p>
                       ${item.price} x {item.quantity}
                     </p>
-                    <button
-                      className="btn btn-sm btn-outline-secondary me-2"
-                      onClick={() => updateQuantity(item.id, 1)}
-                    >
-                      +
-                    </button>
-                    <button
-                      className="btn btn-sm btn-outline-secondary me-2"
-                      onClick={() => updateQuantity(item.id, -1)}
-                    >
-                      -
-                    </button>
-                    <button
-                      className="btn btn-sm btn-outline-danger"
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      Remove
-                    </button>
+                    <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                    <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                    <button onClick={() => removeFromCart(item.id)}>Remove</button>
                   </div>
                 </div>
               ))
@@ -144,9 +141,15 @@ function App() {
 
           {/* Total and Buy Button */}
           <div>
-            <h5 className="text-center mb-3">Total: ${totalPrice.toFixed(2)}</h5>
+            <h5>Total: ${totalPrice.toFixed(2)}</h5>
             <button
-              className="btn btn-success w-100"
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "green",
+                color: "white",
+                border: "none",
+                width: "100%",
+              }}
               onClick={() => alert("Buy functionality not implemented yet!")}
             >
               Buy
