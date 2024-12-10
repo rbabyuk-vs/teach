@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import backpackImage from "./assets/images/backpack.jpg"; // Local image
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Card,
   CardContent,
@@ -110,6 +111,7 @@ function App() {
         variant="contained"
         color="secondary"
         onClick={() => setShowCart(true)}
+        startIcon={<AddShoppingCartIcon />}
       >
         Cart ({cart.length})
       </Button>
