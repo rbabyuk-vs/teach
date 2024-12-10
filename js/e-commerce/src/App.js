@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import backpackImage from "./assets/images/backpack.jpg"; // Local image
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Drawer,
+  IconButton,
+  Box,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -9,8 +20,9 @@ function App() {
     id: 1,
     name: "Fjallraven - Foldsack No. 1 Backpack",
     price: 109.95,
-    image: backpackImage, // Use the local image
-    description: "Ідеальний рюкзак для повсякденного використання та прогулянок у лісі. Сховайте свій ноутбук (до 15 дюймів) у м'якому рукаві, щоденний",
+    image: backpackImage,
+    description:
+      "Ідеальний рюкзак для повсякденного використання та прогулянок у лісі. Сховайте свій ноутбук (до 15 дюймів) у м'якому рукаві, щоденний",
   };
 
   const addToCart = () => {
@@ -48,116 +60,160 @@ function App() {
   );
 
   return (
-    <div style={{ padding: "20px" }}>
+    <Box sx={{ padding: 2 }}>
       {/* Product Card */}
-      <div style={{ border: "1px solid #ccc", padding: "10px", width: "300px" }}>
-        <img
-          src={product.image}
+      <Card sx={{ maxWidth: 300, marginBottom: 2 }}>
+        <CardMedia
+          component="img"
+          height="200"
+          image={product.image}
           alt={product.name}
-          style={{ width: "100%", height: "auto" }}
         />
-        <div>
-          <h5>{product.name}</h5>
-          <p>{product.description}</p>
-          <p>
-            <strong>${product.price}</strong>
-          </p>
-          <button onClick={addToCart}>Buy</button>
-        </div>
-      </div>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            {product.name}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 2,
+              overflow: "hidden",
+            }}
+          >
+            {product.description}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: 2,
+            }}
+          >
+            <Typography variant="h6">${product.price}</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={addToCart}
+            >
+              Buy
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
 
       {/* Cart Button */}
-      <button
-        onClick={() => setShowCart(!showCart)}
-        style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          backgroundColor: "#ccc",
-          border: "none",
-        }}
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => setShowCart(true)}
       >
-        {showCart ? "Hide Cart" : `Cart (${cart.length})`}
-      </button>
+        Cart ({cart.length})
+      </Button>
 
-      {/* Cart Sidebar */}
-      {showCart && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            right: 0,
-            width: "300px",
+      {/* Cart Drawer */}
+      <Drawer anchor="right" open={showCart} onClose={() => setShowCart(false)}>
+        <Box
+          sx={{
+            width: 300,
             height: "100%",
-            backgroundColor: "#f8f9fa",
-            padding: "20px",
-            boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
-            overflowY: "auto",
             display: "flex",
             flexDirection: "column",
+            padding: 2,
           }}
         >
-          {/* Close Button */}
-          <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
-            <h5>Cart</h5>
-            <button onClick={() => setShowCart(false)}>X</button>
-          </div>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 2,
+            }}
+          >
+            <Typography variant="h6">Cart</Typography>
+            <IconButton onClick={() => setShowCart(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
           {/* Cart Items */}
-          <div style={{ flex: 1 }}>
+          <Box sx={{ flex: 1, overflowY: "auto" }}>
             {cart.length === 0 ? (
-              <p>Your cart is empty.</p>
+              <Typography>Your cart is empty.</Typography>
             ) : (
               cart.map((item) => (
-                <div
+                <Box
                   key={item.id}
-                  style={{
+                  sx={{
                     display: "flex",
                     alignItems: "center",
-                    marginBottom: "10px",
+                    marginBottom: 2,
                   }}
                 >
                   <img
                     src={item.image}
                     alt={item.name}
                     style={{
-                      width: "50px",
-                      height: "50px",
-                      marginRight: "10px",
+                      width: 50,
+                      height: 50,
+                      marginRight: 10,
                     }}
                   />
-                  <div style={{ flex: 1 }}>
-                    <p>{item.name}</p>
-                    <p>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography>{item.name}</Typography>
+                    <Typography>
                       ${item.price} x {item.quantity}
-                    </p>
-                    <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                    <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                    <button onClick={() => removeFromCart(item.id)}>Remove</button>
-                  </div>
-                </div>
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 1, marginTop: 1 }}>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => updateQuantity(item.id, 1)}
+                      >
+                        +
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => updateQuantity(item.id, -1)}
+                      >
+                        -
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        color="error"
+                        onClick={() => removeFromCart(item.id)}
+                      >
+                        Remove
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
               ))
             )}
-          </div>
+          </Box>
 
           {/* Total and Buy Button */}
-          <div>
-            <h5>Total: ${totalPrice.toFixed(2)}</h5>
-            <button
-              style={{
-                padding: "10px 20px",
-                backgroundColor: "green",
-                color: "white",
-                border: "none",
-                width: "100%",
-              }}
+          <Box>
+            <Typography variant="h6" sx={{ textAlign: "center", marginBottom: 2 }}>
+              Total: ${totalPrice.toFixed(2)}
+            </Typography>
+            <Button
+              variant="contained"
+              color="success"
+              fullWidth
               onClick={() => alert("Buy functionality not implemented yet!")}
             >
               Buy
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+            </Button>
+          </Box>
+        </Box>
+      </Drawer>
+    </Box>
   );
 }
 
