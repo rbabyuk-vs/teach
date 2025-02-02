@@ -102,13 +102,25 @@ export default function Gallery() {
 // <Profile /> починається з великої літери P, тому React знає, що ми хочемо використовувати наш компонент з назвою Profile.
 
 
-function App() {
+function Profile() {
   return (
-    TableOfContents()
+    <img
+      src="https://i.imgur.com/QIrZWGIs.jpg"
+      alt="Алан Л. Гарт (Alan L. Hart)"
+    />
   );
 }
 
-export default App;
+export default function Gallery() {
+  return (
+    <section>
+      <h1>Видатні вчені</h1>
+      <Profile />
+      <Profile />
+      <Profile />
+    </section>
+  );
+}
 
 // challange
 // 1. Експорт компонента 
