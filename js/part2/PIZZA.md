@@ -7,6 +7,7 @@
 мені потрібен React міні компонент для того щоб відобразити зони доставки.
 
 як приклад сторінки можна використати https://kebabtsia.com/delivery/
+https://la.ua/delivery/
 
 ### Acceptance criteria:
 
