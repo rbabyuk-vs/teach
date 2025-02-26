@@ -2,6 +2,7 @@
 // test cards: https://docs.adyen.com/development-resources/testing/test-card-numbers/
 // paypal  https://developer.paypal.com/home/
 // https://developer.paypal.com/integration-builder/
+// PayPal creds https://www.paypal.com/signin?returnUri=https%3A%2F%2Fdeveloper.paypal.com%2Fdashboard%2Fapplications%2Fsandbox&intent=developer&ctxId=ul11a066f6c9f24569adf8595e023b30ee&_ga=2.151349946.2086199219.1740560002-1344891736.1740424892
 
 
 import React, { useState, useEffect } from "react";
