@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Family Calendar</title>
+  <style>
+    :root { --bg:#0c0c0f; --fg:#e7e7ea; --muted:#9aa0a6; --accent:#9bd2ff; }
+
+    html, body {
+      margin:0; padding:0; background:var(--bg); color:var(--fg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Page container */
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 18px 60px; }
+
+    /* ===== Header (hero) ===== */
+    .hero { display:grid; gap:16px; margin-bottom:18px; }
+    .brand h1 { font-size: 40px; margin:0 0 4px; letter-spacing:.5px; }
+    .meta { color: var(--muted); font-size: 14px; }
+
+    /* Right column (weather wrapper) */
+    .wx {
+      display:flex; flex-direction:column; gap:12px;
+    }
+
+    /* Weather today card (compact) */
+    .weather {
+      background:#121218; border:1px solid #1e2230; border-radius:14px;
+      padding:12px; display:flex; align-items:center; gap:12px;
+    }
+    .weather .icon { font-size: 32px; line-height:1; }
+    .weather .temp { font-size: 28px; font-weight:700; }
+    .weather .sub  { color: var(--muted); font-size:13px; }
+    .weather .row  { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+    .badge { background:#0f1422; border:1px solid #24304d; border-radius:8px; padding:3px 8px; font-size:12px; }
+
+    /* Hourly strip — 10 cols, no scroll */
+    .hstrip {
+      background:#121218; border:1px solid #1e2230; border-radius:14px;
+      padding:10px;
+    }
+    .hrow {
+      display:grid; grid-template-columns: repeat(10, minmax(52px, 1fr)); gap:8px;
+    }
+    .hcell {
+      border:1px solid #24304d; background:#0f1422; border-radius:10px;
+      padding:6px; display:flex; flex-direction:column; align-items:center;
+    }
+    .hcell.now { border-color:#3a79ff; box-shadow: 0 0 0 1px rgba(58,121,255,.25) inset; }
+    .hhr  { font-size: 13px; color: var(--muted); }
+    .hic  { font-size: 22px; line-height:1; margin:2px 0; }
+    .htmp { font-size: 18px; font-weight:700; }
+    .hbadges { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:2px; }
+    .hbadge { font-size:11px; padding:2px 6px; border:1px solid #2a375a; border-radius:8px; color: var(--muted); }
+
+    /* ===== Calendar grid ===== */
+    .days { display:grid; grid-template-columns: 1fr; gap:16px; }
+    .day  { background:#121218; border:1px solid #1e2230; border-radius:14px; padding:14px; }
+    .day h2 { font-size: 22px; margin: 0 0 8px; color: var(--accent); font-weight:600; }
+    .event { display:flex; gap:12px; align-items:flex-start; padding: 10px 8px; border-radius: 10px; }
+    .event + .event { border-top: 1px dashed #262a3a; }
+    .time { min-width: 120px; font-size: 20px; font-weight: 600; }
+    .title { font-size: 22px; line-height: 1.25; }
+    .loc { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+    /* ===== Responsive ===== */
+    @media (orientation: landscape) and (min-width: 1024px) {
+      /* two columns: left brand, right weather */
+      .hero { grid-template-columns: 1fr auto; align-items:start; }
+      /* .wx { width: 640px; max-width: 60vw; justify-self: end; } */ /* compact fixed width */
+      .days { grid-template-columns: 1fr 1fr 1fr; }
+      .time { min-width: 140px; }
+    }
+
+    @media (orientation: portrait) and (min-width: 768px) {
+      .days { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Optional: sticky header while scrolling calendar */
+    .hero { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-top: 12px; }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <!-- <div class="brand">
+        <h1>Сімейний календар</h1>
+        <div class="meta">
+          Діапазон: <?= model.rangeLabel ?> · Оновлено: <?= model.generatedAt ?> · <?= model.tz ?>
+        </div>
+      </div> -->
+
+      <div class="wx">
+        <? if (model.weatherToday) { 
+            var w = model.weatherToday; ?>
+          <section class="weather" aria-label="Сьогоднішній прогноз">
+            <div class="icon"><?= w.icon ?></div>
+            <div>
+              <div class="temp">
+                <?= (w.tempNow !== null ? w.tempNow + '°C' : '') ?>
+              </div>
+              <div class="sub">
+                <?= w.label ?> · Макс <?= w.tempMax ?>° / Мін <?= w.tempMin ?>°
+              </div>
+              <div class="row">
+                <? if (w.popMax !== null) { ?><span class="badge">Ймовірн. опадів: <?= w.popMax ?>%</span><? } ?>
+                <? if (w.precipMm !== null) { ?><span class="badge">Опади: <?= w.precipMm ?> мм</span><? } ?>
+                <? if (w.windNow !== null) { ?><span class="badge">Вітер: <?= w.windNow ?> м/с</span><? } ?>
+                <? if (w.uvMax !== null)   { ?><span class="badge">UV: <?= w.uvMax ?></span><? } ?>
+              </div>
+            </div>
+          </section>
+        <? } ?>
+
+        <? if (model.weatherHourly && model.weatherHourly.length) { ?>
+          <section class="hstrip" aria-label="Погода на наступні 10 год">
+            <div class="hrow">
+              <? for (var i=0; i<model.weatherHourly.length; i++) {
+                  var h = model.weatherHourly[i]; ?>
+                <div class="hcell <?= i===0 ? 'now' : '' ?>">
+                  <div class="hhr"><?= h.hourLabel ?></div>
+                  <div class="hic"><?= h.icon ?></div>
+                  <div class="htmp"><?= (h.temp !== null ? h.temp + '°C' : '') ?></div>
+                  <div class="hbadges">
+                    <? if (h.pop !== null) { ?><span class="hbadge">Опади: <?= h.pop ?>%</span><? } ?>
+                    <? if (h.precip !== null) { ?><span class="hbadge"><?= h.precip ?> мм</span><? } ?>
+                    <? if (h.wind !== null) { ?><span class="hbadge"><?= h.wind ?> м/с</span><? } ?>
+                  </div>
+                </div>
+              <? } ?>
+            </div>
+          </section>
+        <? } ?>
+      </div>
+    </header>
+    <section class="days">
+      <? if (model.days.length === 0) { ?>
+        <div class="day"><h2>Немає подій</h2></div>
+      <? } ?>
+
+      <? for (var i=0; i<model.days.length; i++) {
+           var day = model.days[i]; ?>
+        <div class="day">
+          <h2><?= day.dayLabel ?></h2>
+          <? for (var j=0; j<day.events.length; j++) {
+               var ev = day.events[j]; ?>
+            <div class="event">
+              <div class="time"><?= ev.timeLabel ?></div>
+              <div class="main">
+                <div class="title"><?= ev.title ?></div>
+                <? if (ev.location) { ?>
+                  <div class="loc"><?= ev.location ?></div>
+                <? } ?>
+              </div>
+            </div>
+          <? } ?>
+        </div>
+      <? } ?>
+    </section>
+  </div>
+</body>
+</html>
