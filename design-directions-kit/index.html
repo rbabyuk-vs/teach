@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Versions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>
+/* ================== CONFIG — edit only this block ================== */
+window.CONFIG = {
+  name: "MyApp",                       // shown in the bar and the tab title
+  versions: [                          // one entry per folder: <id>/index.html
+    { id: "v1", name: "Direction one" },
+    { id: "v2", name: "Direction two" },
+    { id: "v3", name: "Direction three" },
+    { id: "v4", name: "Direction four" },
+    { id: "v5", name: "Direction five" }
+  ],
+  defaultFrame: "phone"                // "phone" for mobile-first, "desktop" for web apps
+};
+/* =================================================================== */
+</script>
+<style>
+  :root {
+    --bar: #151515;
+    --bar-active: #0b0b0b;
+    --line: #2a2a2a;
+    --ink: #f2f2f2;
+    --muted: #8f8f8f;
+    --accent: #e8673d;
+    --ground: #232323;
+    --frame: #0e0e0e;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex;
+    flex-direction: column;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--mono);
+    overflow: hidden;
+  }
+
+  /* Bar */
+  .bar {
+    flex: none;
+    display: flex;
+    align-items: stretch;
+    min-height: 56px;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: var(--bar);
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .bar::-webkit-scrollbar { display: none; }
+  .brand {
+    display: flex; align-items: center;
+    padding: 0 20px 0 max(16px, env(safe-area-inset-left, 0px));
+    font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    white-space: nowrap; border-right: 1px solid var(--line);
+  }
+  .brand span { color: var(--muted); font-weight: 400; margin-left: .7em; }
+  .tabs { display: flex; }
+  .tab {
+    position: relative; display: flex; flex-direction: column; justify-content: center; gap: 3px;
+    padding: 0 18px; border-right: 1px solid var(--line);
+    color: var(--muted); text-decoration: none; white-space: nowrap;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .tab b { font-size: 12px; color: var(--ink); }
+  .tab:hover { background: #1c1c1c; }
+  .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .tab[aria-current="page"] { background: var(--bar-active); }
+  .tab[aria-current="page"]::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--accent);
+  }
+  .tab[aria-current="page"] b { color: var(--accent); }
+  .spacer { flex: 1; }
+  .tools {
+    display: flex; align-items: center; gap: 4px;
+    padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 16px;
+    border-left: 1px solid var(--line);
+  }
+  .tools button, .tools a {
+    font: inherit; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    background: none; color: var(--muted); border: 1px solid var(--line);
+    padding: 6px 10px; cursor: pointer; text-decoration: none; white-space: nowrap;
+  }
+  .tools button[aria-pressed="true"] { color: var(--ink); border-color: var(--muted); }
+  .tools a { margin-left: 8px; }
+  .tools a:hover, .tools button:hover { color: var(--ink); }
+  .tools :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Stage */
+  .stage {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    padding: 20px 0 max(20px, env(safe-area-inset-bottom, 0px));
+  }
+  .device {
+    --s: 1; --w: 390px; --h: 844px; --r: 40px;
+    flex: none;
+    width: calc(var(--w) * var(--s)); height: calc(var(--h) * var(--s));
+    border-radius: calc(var(--r) * var(--s)); overflow: hidden; background: #fff;
+    box-shadow: 0 0 0 calc(10px * var(--s)) var(--frame), 0 30px 80px rgba(0, 0, 0, .5);
+  }
+  .device iframe {
+    display: block; border: 0; background: #fff;
+    width: var(--w); height: var(--h);
+    transform: scale(var(--s)); transform-origin: 0 0;
+  }
+  .caption {
+    margin: 0; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+  .caption kbd { font: inherit; color: var(--ink); }
+
+  /* Full width, and always on phones */
+  body.full .stage { padding: 0; }
+  body.full .device { flex: 1; width: 100%; height: auto; border-radius: 0; box-shadow: none; }
+  body.full .device iframe { width: 100%; height: 100%; transform: none; }
+  body.full .caption { display: none; }
+  @media (max-width: 600px) {
+    .brand span, .tools button { display: none; }
+    .tab { padding: 0 14px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .device { transition: width .25s, height .25s, border-radius .25s; }
+  }
+</style>
+</head>
+<body>
+  <nav class="bar" aria-label="Версії">
+    <div class="brand" id="brand"></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="spacer"></div>
+    <div class="tools" id="tools" role="group" aria-label="Розмір кадру"></div>
+  </nav>
+
+  <main class="stage" id="stage">
+    <div class="device" id="device">
+      <iframe id="view" title="Перегляд версії"></iframe>
+    </div>
+    <p class="caption" id="caption"></p>
+  </main>
+
+<script>
+(function () {
+  var C = window.CONFIG;
+  var FRAMES = [
+    { id: "phone",   label: "390",  w: 390,  h: 844,  r: 40 },
+    { id: "tablet",  label: "768",  w: 768,  h: 1024, r: 24 },
+    { id: "desktop", label: "1440", w: 1440, h: 900,  r: 8 },
+    { id: "full",    label: "Full" }
+  ];
+
+  var tabs = document.getElementById("tabs");
+  var tools = document.getElementById("tools");
+  var view = document.getElementById("view");
+  var device = document.getElementById("device");
+  var stage = document.getElementById("stage");
+  var caption = document.getElementById("caption");
+  var phoneQuery = window.matchMedia("(max-width: 600px)");
+  var key = "versions-frame-" + C.name;
+
+  document.title = C.name + " · " + C.versions.length + " directions";
+  document.getElementById("brand").innerHTML = C.name + "<span>" + C.versions.length + " directions</span>";
+
+  C.versions.forEach(function (v, i) {
+    var a = document.createElement("a");
+    a.className = "tab";
+    a.href = "#" + v.id;
+    a.innerHTML = "<b>" + v.id.toUpperCase() + "</b>" + v.name;
+    a.title = "Клавіша " + (i + 1);
+    tabs.appendChild(a);
+  });
+
+  FRAMES.forEach(function (f) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.id = "frame-" + f.id;
+    b.dataset.frame = f.id;
+    b.textContent = f.label;
+    b.addEventListener("click", function () { setFrame(f.id); });
+    tools.appendChild(b);
+  });
+  var open = document.createElement("a");
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.textContent = "Відкрити ↗";
+  open.title = "Відкрити версію окремо (зручно на телефоні)";
+  tools.appendChild(open);
+
+  function ids() { return C.versions.map(function (v) { return v.id; }); }
+  function current() {
+    var id = location.hash.slice(1);
+    return ids().indexOf(id) >= 0 ? id : C.versions[0].id;
+  }
+
+  var frame = C.defaultFrame || "phone";
+  try { frame = localStorage.getItem(key) || frame; } catch (e) {}
+
+  function frameObj() {
+    return FRAMES.filter(function (f) { return f.id === frame; })[0] || FRAMES[0];
+  }
+
+  function show() {
+    var id = current();
+    var src = id + "/index.html";
+    if (view.getAttribute("src") !== src) view.setAttribute("src", src);
+    open.href = src;
+    tabs.querySelectorAll(".tab").forEach(function (t) {
+      if (t.getAttribute("href") === "#" + id) t.setAttribute("aria-current", "page");
+      else t.removeAttribute("aria-current");
+    });
+    var f = frameObj();
+    caption.innerHTML = src + (f.w ? " · " + f.w + " × " + f.h : "") +
+      " · <kbd>1</kbd>–<kbd>" + Math.min(9, C.versions.length) + "</kbd> <kbd>←</kbd><kbd>→</kbd>";
+  }
+
+  function fit() {
+    if (document.body.classList.contains("full")) return;
+    var f = frameObj();
+    var s = Math.min(1, (stage.clientHeight - 80) / f.h, (stage.clientWidth - 48) / f.w);
+    device.style.setProperty("--s", Math.max(0.2, s).toFixed(3));
+  }
+
+  function apply() {
+    var f = frameObj();
+    var full = f.id === "full" || phoneQuery.matches;
+    document.body.classList.toggle("full", full);
+    if (!full) {
+      device.style.setProperty("--w", f.w + "px");
+      device.style.setProperty("--h", f.h + "px");
+      device.style.setProperty("--r", f.r + "px");
+    }
+    tools.querySelectorAll("button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.frame === frame));
+    });
+    show();
+    fit();
+  }
+
+  function setFrame(id) {
+    frame = id;
+    try { localStorage.setItem(key, id); } catch (e) {}
+    apply();
+  }
+
+  document.addEventListener("keydown", function (e) {
+    var list = ids(), i = list.indexOf(current());
+    var n = parseInt(e.key, 10);
+    if (n >= 1 && n <= Math.min(9, list.length)) location.hash = list[n - 1];
+    else if (e.key === "ArrowRight") location.hash = list[(i + 1) % list.length];
+    else if (e.key === "ArrowLeft") location.hash = list[(i - 1 + list.length) % list.length];
+  });
+
+  window.addEventListener("hashchange", show);
+  window.addEventListener("resize", fit);
+  if (phoneQuery.addEventListener) phoneQuery.addEventListener("change", apply);
+
+  apply();
+})();
+</script>
+</body>
+</html>
